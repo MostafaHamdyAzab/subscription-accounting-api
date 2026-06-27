@@ -1,0 +1,1133 @@
+{
+	"info": {
+		"_postman_id": "59eb35df-0e1b-4c41-81e2-6020ff643e04",
+		"name": "subscription-api",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json",
+		"_exporter_id": "24068020"
+	},
+	"item": [
+		{
+			"name": "auth",
+			"item": [
+				{
+					"name": "register-tenant",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Register Tenant - status is 201\", function () {\r",
+									"  pm.response.to.have.status(201);\r",
+									"});\r",
+									"const response = pm.response.json();\r",
+									"pm.test(\"Register Tenant - response success is true\", function () {\r",
+									"  pm.expect(response.success).to.eql(true);\r",
+									"});\r",
+									"if (response?.data?.token) {\r",
+									"  pm.environment.set(\"token\", response.data.token);\r",
+									"}\r",
+									"console.log(\"Token saved:\", pm.environment.get(\"token\"));\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"companyName\": \"ABC Company\",\r\n  \"adminName\": \"Ahmed Admin\",\r\n  \"email\": \"admin@abc.com\",\r\n  \"password\": \"123456\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{base_url}}/auth/register-tenant"
+					},
+					"response": []
+				},
+				{
+					"name": "login",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Login - status is 200\", function () {\r",
+									"  pm.response.to.have.status(200);\r",
+									"});\r",
+									"const response = pm.response.json();\r",
+									"pm.test(\"Login - response success is true\", function () {\r",
+									"  pm.expect(response.success).to.eql(true);\r",
+									"});\r",
+									"\r",
+									"if (response?.data?.token) {\r",
+									"  pm.environment.set(\"token\", response.data.token);\r",
+									"}\r",
+									"\r",
+									"\r",
+									"console.log(\"Token saved:\", pm.environment.get(\"token\"));"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"email\": \"admin@abc.com\",\r\n  \"password\": \"123456\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{base_url}}/auth/login"
+					},
+					"response": []
+				},
+				{
+					"name": "me",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{token}}"
+							}
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{base_url}}/auth/me"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "plans",
+			"item": [
+				{
+					"name": "create_plan",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{token}}"
+							}
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"name\": \"Bronze Plan\",\r\n  \"price\": 100,\r\n  \"currency\": \"USD\",\r\n  \"billingPeriod\": \"MONTHLY\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{base_url}}/plans"
+					},
+					"response": []
+				},
+				{
+					"name": "update-plan",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{token}}"
+							}
+						},
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"name\": \"Bronze Plan\",\r\n  \"price\": 100,\r\n  \"currency\": \"USD\",\r\n  \"billingPeriod\": \"MONTHLY\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{base_url}}/plans/a9208c8b-30a7-4870-8dd7-492af55db307"
+					},
+					"response": []
+				},
+				{
+					"name": "delete-plan",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{token}}"
+							}
+						},
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"name\": \"Bronze Plan\",\r\n  \"price\": 100,\r\n  \"currency\": \"USD\",\r\n  \"billingPeriod\": \"MONTHLY\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{base_url}}/plans/a9208c8b-30a7-4870-8dd7-492af55db307"
+					},
+					"response": []
+				},
+				{
+					"name": "all_plans",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{token}}"
+							}
+						},
+						"method": "GET",
+						"header": [],
+						"url": "{{base_url}}/plans"
+					},
+					"response": []
+				},
+				{
+					"name": "active_plans",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{token}}"
+							}
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/plans?isActive=true",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"plans"
+							],
+							"query": [
+								{
+									"key": "isActive",
+									"value": "true"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "show-plan",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{token}}"
+							}
+						},
+						"method": "GET",
+						"header": [],
+						"url": "{{base_url}}/plans/a9208c8b-30a7-4870-8dd7-492af55db307"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "customers",
+			"item": [
+				{
+					"name": "create_customer",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{token}}"
+							}
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"name\": \"Ali Omar\",\r\n  \"email\": \"ali@example.com\",\r\n  \"phone\": \"+201000000000\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{base_url}}/customers"
+					},
+					"response": []
+				},
+				{
+					"name": "search_customer",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{token}}"
+							}
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"name\": \"Ali Omar\",\r\n  \"email\": \"ali@example.com\",\r\n  \"phone\": \"+201000000000\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/customers?search=ali",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"customers"
+							],
+							"query": [
+								{
+									"key": "search",
+									"value": "ali"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "edite_customer",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{token}}"
+							}
+						},
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"name\": \"Ali Omar\",\r\n  \"email\": \"ali@example.com\",\r\n  \"phone\": \"+201000000000\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{base_url}}/customers/97df2272-3842-43c6-bb8b-e90ac181449f"
+					},
+					"response": []
+				},
+				{
+					"name": "show_customer",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{token}}"
+							}
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"name\": \"Ali Omar\",\r\n  \"email\": \"ali@example.com\",\r\n  \"phone\": \"+201000000000\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{base_url}}/customers/97df2272-3842-43c6-bb8b-e90ac181449f"
+					},
+					"response": []
+				},
+				{
+					"name": "get_all_customers",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{token}}"
+							}
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"name\": \"Ali Omar\",\r\n  \"email\": \"ali@example.com\",\r\n  \"phone\": \"+201000000000\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{base_url}}/customers"
+					},
+					"response": []
+				},
+				{
+					"name": "delete_customer",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{token}}"
+							}
+						},
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"name\": \"Ali Omar\",\r\n  \"email\": \"ali@example.com\",\r\n  \"phone\": \"+201000000000\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{base_url}}/customers/97df2272-3842-43c6-bb8b-e90ac181449f"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "subscriptions",
+			"item": [
+				{
+					"name": "create_subscription",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{token}}"
+							}
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"customerId\": \"97df2272-3842-43c6-bb8b-e90ac181449f\",\r\n  \"planId\": \"a9208c8b-30a7-4870-8dd7-492af55db307\",\r\n  \"startDate\": \"2026-06-01\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{base_url}}/subscriptions"
+					},
+					"response": []
+				},
+				{
+					"name": "update_subscription",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{token}}"
+							}
+						},
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"customerId\": \"97df2272-3842-43c6-bb8b-e90ac181449f\",\r\n  \"planId\": \"a9208c8b-30a7-4870-8dd7-492af55db307\",\r\n  \"startDate\": \"2026-06-01\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{base_url}}/subscriptions/d5010691-c548-46f2-8922-0e6f58a24c27"
+					},
+					"response": []
+				},
+				{
+					"name": "cancel_subscription",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{token}}"
+							}
+						},
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"customerId\": \"97df2272-3842-43c6-bb8b-e90ac181449f\",\r\n  \"planId\": \"a9208c8b-30a7-4870-8dd7-492af55db307\",\r\n  \"startDate\": \"2026-06-01\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/subscriptions/d5010691-c548-46f2-8922-0e6f58a24c27/cancel",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"subscriptions",
+								"d5010691-c548-46f2-8922-0e6f58a24c27",
+								"cancel"
+							],
+							"query": [
+								{
+									"key": "subscriptionId",
+									"value": null,
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get_all_subscriptions",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{token}}"
+							}
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{base_url}}/subscriptions"
+					},
+					"response": []
+				},
+				{
+					"name": "show_subscription",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{token}}"
+							}
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{base_url}}/subscriptions/d5010691-c548-46f2-8922-0e6f58a24c27"
+					},
+					"response": []
+				},
+				{
+					"name": "filter_subscription",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{token}}"
+							}
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"customerId\": \"97df2272-3842-43c6-bb8b-e90ac181449f\",\r\n  \"planId\": \"a9208c8b-30a7-4870-8dd7-492af55db307\",\r\n  \"startDate\": \"2026-06-01\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/subscriptions?status=ACTIVE",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"subscriptions"
+							],
+							"query": [
+								{
+									"key": "status",
+									"value": "ACTIVE"
+								},
+								{
+									"key": "customerId",
+									"value": null,
+									"disabled": true
+								},
+								{
+									"key": "planId",
+									"value": null,
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "delete_subscription",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{token}}"
+							}
+						},
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"customerId\": \"97df2272-3842-43c6-bb8b-e90ac181449f\",\r\n  \"planId\": \"a9208c8b-30a7-4870-8dd7-492af55db307\",\r\n  \"startDate\": \"2026-06-01\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/subscriptions/d5010691-c548-46f2-8922-0e6f58a24c27",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"subscriptions",
+								"d5010691-c548-46f2-8922-0e6f58a24c27"
+							],
+							"query": [
+								{
+									"key": "customerId",
+									"value": null,
+									"disabled": true
+								},
+								{
+									"key": "planId",
+									"value": null,
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "invoices",
+			"item": [
+				{
+					"name": "generate-monthly",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{token}}"
+							}
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"month\": \"2026-06\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{base_url}}/invoices/generate-monthly"
+					},
+					"response": []
+				},
+				{
+					"name": "get_all_invoices",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{token}}"
+							}
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"month\": \"2026-06\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{base_url}}/invoices"
+					},
+					"response": []
+				},
+				{
+					"name": "filter_invoices",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{token}}"
+							}
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"month\": \"2026-06\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/invoices?status=UNPAID",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"invoices"
+							],
+							"query": [
+								{
+									"key": "status",
+									"value": "UNPAID",
+									"description": "PARTIALLY_PAID"
+								},
+								{
+									"key": "customerId",
+									"value": "97df2272-3842-43c6-bb8b-e90ac181449f",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get_invoice_by_id",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{token}}"
+							}
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"month\": \"2026-06\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/invoices/4986dc99-b17a-4429-b071-dd011e69a2ac",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"invoices",
+								"4986dc99-b17a-4429-b071-dd011e69a2ac"
+							],
+							"query": [
+								{
+									"key": "",
+									"value": "",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "payments",
+			"item": [
+				{
+					"name": "create_payment",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{token}}"
+							}
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"invoiceId\": \"4986dc99-b17a-4429-b071-dd011e69a2ac\",\r\n  \"amount\": 100,\r\n  \"method\": \"CASH\",\r\n  \"paymentDate\": \"2026-06-27\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{base_url}}/payments"
+					},
+					"response": []
+				},
+				{
+					"name": "get_all_payments",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{token}}"
+							}
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"invoiceId\": \"4986dc99-b17a-4429-b071-dd011e69a2ac\",\r\n  \"amount\": 100,\r\n  \"method\": \"CASH\",\r\n  \"paymentDate\": \"2026-06-27\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{base_url}}/payments"
+					},
+					"response": []
+				},
+				{
+					"name": "get_payment_by_id",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{token}}"
+							}
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"invoiceId\": \"4986dc99-b17a-4429-b071-dd011e69a2ac\",\r\n  \"amount\": 100,\r\n  \"method\": \"CASH\",\r\n  \"paymentDate\": \"2026-06-27\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{base_url}}/payments/07d70a26-4211-4d83-9fa6-95fa08ad2929"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Revenue Recognition",
+			"item": [
+				{
+					"name": "revenue-recognition",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{token}}"
+							}
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"month\": \"2026-06\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{base_url}}/revenue-recognition/month-end"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "income-statement",
+			"item": [
+				{
+					"name": "income-statement",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{token}}"
+							}
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/reports/income-statement?from=2026-06-01&to=2026-06-30",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"reports",
+								"income-statement"
+							],
+							"query": [
+								{
+									"key": "from",
+									"value": "2026-06-01"
+								},
+								{
+									"key": "to",
+									"value": "2026-06-30"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "balance-sheet",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{token}}"
+							}
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/reports/balance-sheet?asOf=2026-06-30",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"reports",
+								"balance-sheet"
+							],
+							"query": [
+								{
+									"key": "asOf",
+									"value": "2026-06-30"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Accounts",
+			"item": [
+				{
+					"name": "accounts",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{token}}"
+							}
+						},
+						"method": "GET",
+						"header": [],
+						"url": "{{base_url}}/accounting/accounts"
+					},
+					"response": []
+				},
+				{
+					"name": "journal-entries",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{token}}"
+							}
+						},
+						"method": "GET",
+						"header": [],
+						"url": "{{base_url}}/accounting/journal-entries"
+					},
+					"response": []
+				},
+				{
+					"name": "get_journal-entries_by_id",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{token}}"
+							}
+						},
+						"method": "GET",
+						"header": [],
+						"url": "{{base_url}}/accounting/journal-entries/2b63708a-ddcc-433b-858d-9cbfdf23b14b"
+					},
+					"response": []
+				},
+				{
+					"name": "filter",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{token}}"
+							}
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/accounting/journal-entries?referenceType=INVOICE",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"accounting",
+								"journal-entries"
+							],
+							"query": [
+								{
+									"key": "referenceType",
+									"value": "INVOICE",
+									"description": "PAYMENT -->المدفوعات\nREVENUE_RECOGNITION-->الإيراد\n"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "check-app",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": "{{base_url}}/"
+			},
+			"response": []
+		},
+		{
+			"name": "check-db-health",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": "{{base_url}}/health/db"
+			},
+			"response": []
+		},
+		{
+			"name": "check_db_production",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": "https://mostafa-subscription-accounting-api.vercel.app/health/db"
+			},
+			"response": []
+		}
+	]
+}
