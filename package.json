@@ -9,7 +9,9 @@
     "prisma:init": "prisma init --datasource-provider postgresql --output ../generated/prisma",
     "prisma:migrate": "prisma migrate dev",
     "prisma:generate": "prisma generate",
-    "prisma:studio": "prisma studio"
+    "prisma:studio": "prisma studio",
+    "build": "npx prisma generate",
+    "deploy:migrate": "npx prisma migrate deploy"
   },
   "keywords": [],
   "author": "",
