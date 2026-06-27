@@ -1,0 +1,21 @@
+{
+  "version": 1.0,
+  "builds": [
+    {
+      "src": "api/index.js",
+      "use": "@vercel/node"
+    }
+  ],
+  "routes": [
+    {
+      "src": "/(.*)",
+      "dest": "api/index.js"
+    }
+  ],
+  "crons": [
+    {
+      "path": "/api/jobs/monthly-invoices",
+      "schedule": "5 0 1 * *"
+    }
+  ]
+}

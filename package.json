@@ -6,12 +6,11 @@
   "scripts": {
     "dev": "nodemon src/server.js",
     "start": "node src/server.js",
-    "prisma:init": "prisma init --datasource-provider postgresql --output ../generated/prisma",
-    "prisma:migrate": "prisma migrate dev",
+    "build": "prisma generate",
+    "vercel-build": "prisma generate && prisma migrate deploy",
     "prisma:generate": "prisma generate",
-    "prisma:studio": "prisma studio",
-    "build": "npx prisma generate",
-    "deploy:migrate": "npx prisma migrate deploy"
+    "prisma:migrate": "prisma migrate dev",
+    "prisma:studio": "prisma studio"
   },
   "keywords": [],
   "author": "",
