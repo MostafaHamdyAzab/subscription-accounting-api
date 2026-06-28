@@ -71,28 +71,27 @@ The system automatically creates journal entries for all financial movements.
 
 When a monthly invoice is created:
 
-```txt
 Debit   Accounts Receivable
 Credit  Deferred Revenue
-```
+
 
 #### Payment Collection
 
 When a payment is received:
 
-```txt
+
 Debit   Cash
 Credit  Accounts Receivable
-```
+
 
 #### Revenue Recognition
 
 At month-end, deferred revenue is recognized as actual revenue:
 
-```txt
+
 Debit   Deferred Revenue
 Credit  Subscription Revenue
-```
+
 
 ### Financial Reports
 
@@ -113,8 +112,8 @@ Reports are generated from journal entries and journal lines, not directly from 
 
 ## 3. Technical Stack
 
-| Layer            | Technology |
-| ---------------- | ---------- |
+| Layer            | Technology | 
+
 | Runtime          | Node.js    |
 | Framework        | Express.js |
 | Database         | PostgreSQL |
@@ -226,7 +225,7 @@ JournalLine
 When a new tenant is registered, the system automatically creates the following accounts:
 
 | Code | Account Name         | Type      |
-| ---- | -------------------- | --------- |
+
 | 1000 | Cash                 | ASSET     |
 | 1100 | Accounts Receivable  | ASSET     |
 | 2000 | Deferred Revenue     | LIABILITY |
@@ -239,7 +238,7 @@ When a new tenant is registered, the system automatically creates the following 
 ### 7.1 Clone the Repository
 
 ```bash
-git clone <repository-url>
+git clone https://github.com/MostafaHamdyAzab/subscription-accounting-api.git
 cd subscription-accounting-api
 ```
 
@@ -279,13 +278,13 @@ JWT_EXPIRES_IN="7d"
 
 ENABLE_CRON_JOBS=true
 CRON_TIMEZONE=Africa/Cairo
-MONTHLY_INVOICE_CRON=5 0 1 * *
+MONTHLY_INVOICE_CRON=7 0 1 * *
 ```
 
 ### Environment Variables Explanation
 
 | Variable               | Description                                    |
-| ---------------------- | ---------------------------------------------- |
+| 
 | `DATABASE_URL`         | PostgreSQL connection string                   |
 | `PORT`                 | API server port                                |
 | `JWT_SECRET`           | Secret key for signing JWT tokens              |
@@ -300,27 +299,27 @@ MONTHLY_INVOICE_CRON=5 0 1 * *
 
 ### 9.1 Generate Prisma Client
 
-```bash
+
 npx prisma generate
-```
+
 
 ### 9.2 Run Migrations
 
-```bash
+
 npx prisma migrate dev
-```
+
 
 ### 9.3 Open Prisma Studio
 
-```bash
+
 npx prisma studio
-```
+
 
 Then open:
 
-```txt
+
 http://localhost:5555
-```
+
 
 ---
 
@@ -328,38 +327,37 @@ http://localhost:5555
 
 ### Development Mode
 
-```bash
+
 npm run dev
-```
+
 
 ### Production Mode
 
-```bash
+
 npm start
-```
+
 
 The API will run on:
 
-```txt
+
 http://localhost:3000
-```
+
 
 ---
 
 ## 11. Health Check
 
-```http
 GET /health/db
-```
+
 
 Expected response:
 
-```json
+
 {
   "success": true,
   "message": "Database connection is working"
 }
-```
+
 
 ---
 
@@ -367,29 +365,29 @@ Expected response:
 
 ### Register Tenant
 
-```http
+
 POST /api/auth/register-tenant
-```
+
 
 Request body:
 
-```json
+
 {
   "companyName": "ABC Company",
   "adminName": "Ahmed Admin",
   "email": "admin@abc.com",
   "password": "123456"
 }
-```
+`
 
 This endpoint creates:
 
-```txt
+
 Tenant
 Admin User
 Chart of Accounts
 JWT Token
-```
+
 
 ### Login
 
@@ -399,24 +397,24 @@ POST /api/auth/login
 
 Request body:
 
-```json
+
 {
   "email": "admin@abc.com",
   "password": "123456"
 }
-```
+
 
 ### Current User
 
-```http
+
 GET /api/auth/me
-```
+
 
 Authorization:
 
-```txt
+
 Bearer <token>
-```
+
 
 ---
 
@@ -424,44 +422,44 @@ Bearer <token>
 
 ### Create Plan
 
-```http
+
 POST /api/plans
-```
+
 
 Request body:
 
-```json
+
 {
   "name": "Bronze Plan",
   "price": 100,
   "currency": "USD",
   "billingPeriod": "MONTHLY"
 }
-```
+
 
 ### List Plans
 
-```http
+
 GET /api/plans
-```
+
 
 ### Get Plan by ID
 
-```http
+
 GET /api/plans/:id
-```
+
 
 ### Update Plan
 
-```http
+
 PATCH /api/plans/:id
-```
+
 
 ### Delete Plan
 
-```http
+
 DELETE /api/plans/:id
-```
+
 
 ---
 
@@ -469,49 +467,48 @@ DELETE /api/plans/:id
 
 ### Create Customer
 
-```http
+
 POST /api/customers
-```
+
 
 Request body:
 
-```json
+
 {
   "name": "Ali Omar",
   "email": "ali@example.com",
   "phone": "+201000000000"
 }
-```
+
 
 ### List Customers
 
-```http
 GET /api/customers
-```
+
 
 ### Search Customers
 
-```http
+
 GET /api/customers?search=john
-```
+
 
 ### Get Customer by ID
 
-```http
+
 GET /api/customers/:id
-```
+
 
 ### Update Customer
 
-```http
+
 PATCH /api/customers/:id
-```
+
 
 ### Delete Customer
 
-```http
+
 DELETE /api/customers/:id
-```
+
 
 ---
 
@@ -519,55 +516,55 @@ DELETE /api/customers/:id
 
 ### Create Subscription
 
-```http
+
 POST /api/subscriptions
-```
+
 
 Request body:
 
-```json
+
 {
   "customerId": "customer-id",
   "planId": "plan-id",
   "startDate": "2026-06-01"
 }
-```
+
 
 ### List Subscriptions
 
-```http
+
 GET /api/subscriptions
-```
+
 
 ### Filter by Status
 
-```http
+
 GET /api/subscriptions?status=ACTIVE
-```
+
 
 ### Get Subscription by ID
 
-```http
+
 GET /api/subscriptions/:id
-```
+
 
 ### Update Subscription
 
-```http
+
 PATCH /api/subscriptions/:id
-```
+
 
 ### Cancel Subscription
 
-```http
+
 PATCH /api/subscriptions/:id/cancel
-```
+
 
 ### Delete Subscription
 
-```http
+
 DELETE /api/subscriptions/:id
-```
+
 
 ---
 
@@ -575,46 +572,45 @@ DELETE /api/subscriptions/:id
 
 ### Generate Monthly Invoices
 
-```http
+
 POST /api/invoices/generate-monthly
-```
+
 
 Request body:
 
-```json
+
 {
   "month": "2026-06"
 }
-```
+
 
 This creates invoices for all active subscriptions of the authenticated tenant.
 
 For each invoice, the system creates this journal entry:
 
-```txt
+
 Debit   Accounts Receivable
 Credit  Deferred Revenue
-```
+
 
 ### List Invoices
 
-```http
+
 GET /api/invoices
-```
+
 
 ### Filter Invoices
 
-```http
 GET /api/invoices?status=UNPAID
 GET /api/invoices?customerId=customer-id
 GET /api/invoices?subscriptionId=subscription-id
-```
+
 
 ### Get Invoice by ID
 
-```http
+
 GET /api/invoices/:id
-```
+
 
 ---
 
@@ -624,32 +620,32 @@ The project includes a real monthly cron job for automatic invoice generation.
 
 The cron job is configured using:
 
-```env
+
 ENABLE_CRON_JOBS=true
 CRON_TIMEZONE=Africa/Cairo
 MONTHLY_INVOICE_CRON=5 0 1 * *
-```
+
 
 Default schedule:
 
-```txt
+
 At 00:05 on day 1 of every month
-```
+
 
 The cron job:
 
-```txt
+
 1. Finds all tenants.
 2. Generates monthly invoices for each tenant.
 3. Creates accounting journal entries.
 4. Prevents duplicate invoices.
-```
+
 
 For testing, the cron expression can be temporarily changed to:
 
-```env
+
 MONTHLY_INVOICE_CRON=* * * * *
-```
+
 
 This runs the job every minute.
 
@@ -659,45 +655,43 @@ This runs the job every minute.
 
 ### Create Payment
 
-```http
+
 POST /api/payments
-```
 
 Request body:
 
-```json
+
 {
   "invoiceId": "invoice-id",
   "amount": 100,
   "method": "CASH",
   "paymentDate": "2026-06-15"
 }
-```
+
 
 When payment is recorded, the system creates this journal entry:
 
-```txt
 Debit   Cash
 Credit  Accounts Receivable
-```
+
 
 ### List Payments
 
-```http
+
 GET /api/payments
-```
+
 
 ### Filter Payments by Invoice
 
-```http
+
 GET /api/payments?invoiceId=invoice-id
-```
+
 
 ### Get Payment by ID
 
-```http
+
 GET /api/payments/:id
-```
+
 
 ---
 
@@ -705,24 +699,24 @@ GET /api/payments/:id
 
 ### Recognize Monthly Revenue
 
-```http
+
 POST /api/revenue-recognition/month-end
-```
+
 
 Request body:
 
-```json
+
 {
   "month": "2026-06"
 }
-```
+
 
 When revenue is recognized, the system creates this journal entry:
 
-```txt
+
 Debit   Deferred Revenue
 Credit  Subscription Revenue
-```
+
 
 The system prevents recognizing revenue for the same invoice more than once using `revenueRecognizedAt`.
 
@@ -732,51 +726,51 @@ The system prevents recognizing revenue for the same invoice more than once usin
 
 ### List Chart of Accounts
 
-```http
+
 GET /api/accounting/accounts
-```
+
 
 ### List Journal Entries
 
-```http
+
 GET /api/accounting/journal-entries
-```
+
 
 ### Pagination
 
-```http
+
 GET /api/accounting/journal-entries?page=1&limit=10
-```
+
 
 ### Filter by Reference Type
 
-```http
+
 GET /api/accounting/journal-entries?referenceType=INVOICE
 GET /api/accounting/journal-entries?referenceType=PAYMENT
 GET /api/accounting/journal-entries?referenceType=REVENUE_RECOGNITION
-```
+
 
 ### Filter by Reference ID
 
-```http
+
 GET /api/accounting/journal-entries?referenceType=INVOICE&referenceId=invoice-id
-```
+
 
 ### Get Journal Entry by ID
 
-```http
+
 GET /api/accounting/journal-entries/:id
-```
+
 
 Each journal entry response includes:
 
-```txt
+
 totalDebit
 totalCredit
 isBalanced
 journal lines
 related accounts
-```
+
 
 ---
 
@@ -784,43 +778,43 @@ related accounts
 
 ### Income Statement
 
-```http
+
 GET /api/reports/income-statement?from=2026-06-01&to=2026-06-30
-```
+
 
 This report returns total Subscription Revenue for the selected period.
 
 Revenue is calculated from journal lines:
 
-```txt
+
 Subscription Revenue = Credits - Debits
-```
+
 
 ### Balance Sheet
 
-```http
+
 GET /api/reports/balance-sheet?asOf=2026-06-30
-```
+
 
 This report returns balances for:
 
-```txt
+
 Cash
 Accounts Receivable
 Deferred Revenue
-```
+
 
 Assets are calculated as:
 
-```txt
+
 Debits - Credits
-```
+
 
 Liabilities are calculated as:
 
-```txt
+
 Credits - Debits
-```
+
 
 ---
 
@@ -828,7 +822,7 @@ Credits - Debits
 
 Recommended testing order:
 
-```txt
+
 1. Register Tenant
 2. Login
 3. Create Subscription Plan
@@ -840,7 +834,7 @@ Recommended testing order:
 9. View Journal Entries
 10. View Income Statement
 11. View Balance Sheet
-```
+
 
 ---
 
@@ -850,40 +844,40 @@ Assume a monthly subscription plan costs `$100`.
 
 ### Step 1: Invoice Creation
 
-```txt
+
 Debit   Accounts Receivable   100
 Credit  Deferred Revenue      100
-```
+
 
 ### Step 2: Payment Collection
 
-```txt
+
 Debit   Cash                  100
 Credit  Accounts Receivable   100
-```
+
 
 ### Step 3: Revenue Recognition
 
-```txt
+
 Debit   Deferred Revenue        100
 Credit  Subscription Revenue    100
-```
+
 
 ### Final Result
 
 Income Statement:
 
-```txt
+
 Subscription Revenue = 100
-```
+
 
 Balance Sheet:
 
-```txt
+
 Cash = 100
 Accounts Receivable = 0
 Deferred Revenue = 0
-```
+
 
 ---
 
@@ -893,7 +887,7 @@ The system never accepts `tenantId` from the request body.
 
 Instead:
 
-```txt
+
 1. User logs in.
 2. JWT contains tenantId.
 3. authMiddleware extracts tenantId.
@@ -909,33 +903,33 @@ This prevents one tenant from accessing another tenant’s data.
 
 The project can be deployed on platforms such as:
 
-```txt
+
 Render
 Railway
 Heroku
-```
+
 
 Production deployment requires:
 
-```txt
+
 Node.js service
 PostgreSQL database
 Environment variables
 Prisma migrations
-```
+
 
 Typical production commands:
 
-```bash
+
 npm install
 npx prisma generate
 npx prisma migrate deploy
 npm start
-```
+
 
 Required production environment variables:
 
-```env
+
 DATABASE_URL="production-postgresql-url"
 PORT=3000
 JWT_SECRET="production-secret"
@@ -943,7 +937,7 @@ JWT_EXPIRES_IN="7d"
 ENABLE_CRON_JOBS=true
 CRON_TIMEZONE=Africa/Cairo
 MONTHLY_INVOICE_CRON=5 0 1 * *
-```
+
 
 ---
 
@@ -951,7 +945,7 @@ MONTHLY_INVOICE_CRON=5 0 1 * *
 
 Example `package.json` scripts:
 
-```json
+json
 {
   "scripts": {
     "dev": "nodemon src/server.js",
@@ -961,7 +955,6 @@ Example `package.json` scripts:
     "prisma:studio": "prisma studio"
   }
 }
-```
 
 ---
 
